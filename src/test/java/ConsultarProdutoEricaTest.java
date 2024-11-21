@@ -2,29 +2,31 @@ import io.appium.java_client.remote.options.BaseOptions;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+ 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
  
-public class ConsultarProdutoTest {
+public class ConsultarProdutoEricaTest {
  
   private AndroidDriver driver;
-
+ 
   private URL getUrl() {
     try {
       return new URL("https://InstrutorIterasys27:e41c8d26-0be8-4359-8ec1-39817f95b694@ondemand.us-west-1.saucelabs.com:443/wd/hub");
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
-        return null; // Intervalo: Voltaremos 21:00
+    return null;
   }
  
   @BeforeEach
@@ -44,27 +46,18 @@ public class ConsultarProdutoTest {
       .amend("appium:newCommandTimeout", 3600)
       .amend("appium:connectHardwareKeyboard", true);
  
+ 
     driver = new AndroidDriver(this.getUrl(), options);
   }
  
   @Test
   public void sampleTest() {
-    var el1 = driver.findElement(AppiumBy.xpath("(//android.widget.ImageView[@content-desc=\"Product Image\"])[2]"));
-    el1.click();
-    // driver.executeScript("mobile: pressKey", Map.ofEntries(Map.entry("keycode", 187)));
-    var el2 = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"com.google.android.apps.nexuslauncher:id/snapshot\").instance(1)"));
-    el2.click();
-    var el3 = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/productIV\").instance(1)"));
-    el3.click();
-    // driver.executeScript("mobile: pressKey", Map.ofEntries(Map.entry("keycode", 187)));
-    var el4 = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"com.google.android.apps.nexuslauncher:id/snapshot\").instance(1)"));
-    el4.click();
-    var el5 = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/productIV\").instance(0)"));
-    el5.click();
-    var el6 = driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/productTV"));
-    el6.click();
-    var el7 = driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/priceTV"));
-    el7.click();
+    var imgMochila = driver.findElement(AppiumBy.xpath("(//android.widget.ImageView[@content-desc=\"Product Image\"])[1]"));
+    imgMochila.click();
+    var lblTituloProduto = driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/productTV"));
+    assertEquals("Sauce Labs Backpack", lblTituloProduto.getText());
+    var lblPrecoProduto = driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/priceTV"));
+    assertEquals("$ 29.99", lblPrecoProduto.getText());
   }
  
   @AfterEach
