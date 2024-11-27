@@ -56,3 +56,51 @@ ou com.saucelabs.mydemoapp.android.view.activities.MainActivity
 - Baixar e instalar o Appium Inspector
 - Configurar o Appium Inspector para acessar o app no SauceLabs com as informaçõe do Apk Info
 - Usar o Appium Inspector para mapear os elementos e exportar o script de teste
+
+1 - Listas
+> Selenium WebDriver com Cucumber
+Falta:
+- Selenium WebDriver com Page Object
+- Appium Simples
+
+2 - Projetos Finais
+- Planejamento e Analise
+- Teste de Unidade
+- Teste de API 
+- Teste Web
+- Teste Mobile
+
+Nota final do curso é uma média das listas + projetos Finais
+O alvo é a média 8,0 ou superior
+
+- Squads de Teste
+> Critério de Participação é a média 8,0
+> Ideal: entregar todas as listas e os projetos finais até 13/jan
+
+- Suporte
+> continua, normal de segunda a sexta, das 10h às 18h
+
+- Certificados
+2 tipos:
+> participação (sem nota) - vamos configurar até sexta e avisar no grupo
+> conclusão (com nota)
+
+- 2025
+> Projetos QA ao vivo - segundas - 20:00 as 22:00 (fazer junto)
+                                22:00 as 22:30 (ajuda para quem não rodou)
+  Cada projeto vai levar 4 segundas
+
+> Agenda a confirmar (quartas ou quintas)
+  Fevereiro: Formação em Requisitos - 12 semanas
+  Abril: Formação em Desenvolvimento BackEnd - 12 semanas
+  Junho: Formação em Inteligência Artificial - 12 semanas
+  Agosto: Formação em Desenvolvimento FrontEnd - 12 semanas
+
+- Renovação
+> 12x R$ 70,00 ou R$ 700,00 (até 31/12/2025)
+
+
+
+
+
+

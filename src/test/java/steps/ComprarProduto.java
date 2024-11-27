@@ -28,11 +28,26 @@ public class ComprarProduto {
     private URL getUrl() {
         try {
             return new URL(
-                    "https://InstrutorIterasys27:e41c8d26-0be8-4359-8ec1-39817f95b694@ondemand.us-west-1.saucelabs.com:443/wd/hub");
+                    "https://InstrutorIterasys28:92de138a-aec9-4c16-a760-fabc03bb7346@ondemand.us-west-1.saucelabs.com:443/wd/hub");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void arrastaParaCima(Integer xInicio, Integer yInicio, Integer xFim, Integer yFim) {
+        // Arrastar para cima
+        final var finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        var start = new Point(xInicio, yInicio);
+        var end = new Point(xFim, yFim);
+        var swipe = new Sequence(finger, 1);
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(0),
+                PointerInput.Origin.viewport(), start.getX(), start.getY()));
+        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        swipe.addAction(finger.createPointerMove(Duration.ofMillis(1000),
+                PointerInput.Origin.viewport(), end.getX(), end.getY()));
+        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Arrays.asList(swipe));
     }
 
     @Before
@@ -75,11 +90,16 @@ public class ComprarProduto {
         assertEquals("Products", lblTituloSecao.getText());
     }
 
-    @E("localizo o {string} que esta na posicao {int} por {string}")
-    public void localizo_o_que_esta_por(String produto, Integer num_produto, String preco) {
+    @E("localizo o {string} que na {int} esta na posicao {int} por {string}")
+    public void localizo_o_que_esta_por(String produto, Integer rolagem, Integer num_produto, String preco) {
         // Home
         // produto :
         // preco :
+
+        for (int i = 0; i < rolagem; i++) {
+            arrastaParaCima(535, 1900, 535, 800);
+        }
+
         assertEquals(produto, driver.findElement(AppiumBy.xpath(
                 "//android.widget.TextView[@content-desc=\"Product Title\" and @text=\"" + produto + "\"]")).getText());
 
@@ -110,56 +130,46 @@ public class ComprarProduto {
         // botao adicionar no carrinho:
 
         // Arrastar para cima
-        final var finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-        var start = new Point(525, 1698);
-        var end = new Point(530, 563);
-        var swipe = new Sequence(finger, 1);
-        swipe.addAction(finger.createPointerMove(Duration.ofMillis(0),
-                PointerInput.Origin.viewport(), start.getX(), start.getY()));
-        swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-        swipe.addAction(finger.createPointerMove(Duration.ofMillis(1000),
-                PointerInput.Origin.viewport(), end.getX(), end.getY()));
-        swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-        driver.perform(Arrays.asList(swipe));
+        arrastaParaCima(525, 1698, 530, 563);
 
         // Clicar no botão Add to Cart
         driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/cartBt")).click();
 
         // Verificar se o número de produtos no carrinho mudou para 1
         assertEquals("1", driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/cartTV")).getText());
+                "com.saucelabs.mydemoapp.android:id/cartTV")).getText());
 
         // Clicar no icone do carrinho de compras para ir para a sua tela
         driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/cartIV")).click();
     }
 
     @Entao("na tela do carrinho verifico o {string} {string} e {int}")
-    public void na_tela_do_carrinho_verifico_o_e(String produto, String preco, Integer quantidade) {
+    public void na_tela_do_carrinho_verifico_o_e(String produto, String preco, Integer quantidade) throws InterruptedException {
         // Carrinho
         // produto :
         // preco :
         // quant :
-
+        Thread.sleep(2000); // pausa forçada de 2 segundos
         // Verificar o titulo da seção
-        assertEquals("Cart", driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/titleTV")).getText());
+        assertEquals("My Cart", driver.findElement(AppiumBy.id(
+                "com.saucelabs.mydemoapp.android:id/productTV")).getText());
 
         // Verificar o titulo do produto
         assertEquals(produto, driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/productTV")).getText());
+                "com.saucelabs.mydemoapp.android:id/titleTV")).getText());
 
         // Verificar o preco do produto
         assertEquals(preco, driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/priceTV")).getText());
+                "com.saucelabs.mydemoapp.android:id/priceTV")).getText());
 
         // Verificar a quantidade
-        assertEquals(quantidade, driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/itemsTV")).getText());
+        assertEquals(quantidade + " Items", driver.findElement(AppiumBy.id(
+                "com.saucelabs.mydemoapp.android:id/itemsTV")).getText());
 
         // Verificar o preço total
         assertEquals(preco, driver.findElement(AppiumBy.id(
-            "com.saucelabs.mydemoapp.android:id/totalPriceTV")).getText());
-            
-    } 
+                "com.saucelabs.mydemoapp.android:id/totalPriceTV")).getText());
+
+    }
 
 }
